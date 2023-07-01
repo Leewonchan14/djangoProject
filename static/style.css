@@ -1,0 +1,21 @@
+.list {
+    display: flex;
+}
+
+.index {
+    margin-right: 30px;
+}
+
+.pagination {
+    display: flex;
+}
+
+.page-link {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.NoMarginPadding {
+    margin: 0px;
+    padding: 0px;
+}
