@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ question.subject }}</h1>
-<div>
-    {{ question.content }}
-</div>
-{% if anwser_list %}
-    <h5>{{ anwser_list.count }}만큼 답변이 있습니다.</h5>
-    <ul>
-        {% for anwser in anwser_list %}
-            <li>{{ anwser.content }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-<form action="{% url 'pybo:answer_create' question.id %}" method="post">
-    {% csrf_token %}
-    <textarea {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content" rows="10"></textarea>
-    <input type="submit" value="답변등록">
-</form>
+    <h1>{{ question.subject }}</h1>
+    <div>
+        {{ question.content }}
+    </div>
+    {% if anwser_list %}
+        <h5>{{ anwser_list.count }}만큼 답변이 있습니다.</h5>
+        <ul>
+            {% for anwser in anwser_list %}
+                <div class="list">
+                    <li class="page-link">{{ anwser.content }}</li>
+                    <div class="page-link">{{ anwser.author }}</div>
+                    <div class="page-link">{{ anwser.create_date }}</div>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="{% url 'pybo:answer_create' question.id %}" method="post">
+        {% csrf_token %}
+        <textarea {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content"
+                  rows="10"></textarea>
+        <input type="submit" value="답변등록">
+    </form>
 {% endblock %}

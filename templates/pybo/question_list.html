@@ -11,6 +11,7 @@
                     {% if question.answer_set.count > 0 %}
                         <div class="index">{{ question.answer_set.count }}</div>
                     {% endif %}
+                    <div class="index">{{ question.author }}</div>
                 </div>
             {% endfor %}
         </ul>
