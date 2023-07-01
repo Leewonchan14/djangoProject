@@ -3,9 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 from .models import Question, Answer
-from .forms import QuestionForm,AnswerForm
+from .forms import QuestionForm, AnswerForm
 
 
 def index(request: WSGIRequest) -> render:
@@ -24,29 +25,32 @@ def detail(request: WSGIRequest, question_id) -> render:
     return render(request, 'pybo/question_detail.html', context)
 
 
+@login_required(login_url='common:login')
 def answer_create(request: WSGIRequest, question_id):
-
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
             return redirect('pybo:detail', question_id=question.id)
     else:
-        return HttpResponseNotAllowed('Only POST is possible.')
+        form = AnswerForm()
     context = {'question': question, 'form': form}
     return render(request, 'pybo/question_detail.html', context)
 
 
+@login_required(login_url='common:login')
 def question_create(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
-            #commit = False로 create_date속성이 입력안돼도 Question객체를 반환함
+            # commit = False로 create_date속성이 입력안돼도 Question객체를 반환함
             question = form.save(commit=False)
+            question.author = request.user
             question.create_date = timezone.now()
             question.save()
             return redirect('pybo:index')
@@ -54,4 +58,3 @@ def question_create(request):
         form = QuestionForm()
     context = {'form': form}
     return render(request, 'pybo/question_form.html', context)
-

@@ -14,7 +14,7 @@
 {% endif %}
 <form action="{% url 'pybo:answer_create' question.id %}" method="post">
     {% csrf_token %}
-    <textarea name="content" id="content" rows="15"></textarea>
+    <textarea {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content" rows="10"></textarea>
     <input type="submit" value="답변등록">
 </form>
 {% endblock %}
