@@ -6,6 +6,12 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# 로그인 성공후 이동하는 URL
+LOGIN_REDIRECT_URL = '/'
+
+# 로그아웃시 이동하는 URL
+LOGOUT_REDIRECT_URL = '/'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'common.apps.CommonConfig',
     'pybo.apps.PyboConfig',
     "django.contrib.admin",
     "django.contrib.auth",
@@ -104,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
 USE_I18N = True
 
 USE_TZ = True
-
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
