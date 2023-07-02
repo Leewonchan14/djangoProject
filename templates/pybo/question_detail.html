@@ -1,8 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
+    <!-- message 표시 -->
+    {% if messages %}
+        <div class="alert alert-danger my-3" role="alert">
+            {% for message in messages %}
+                <strong>{{ message.tags }}</strong>
+                <ul>
+                    <li>{{ message.message }}</li>
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
     <h1>{{ question.subject }}</h1>
+    <div class="mb-2">{{ question.author.username }}</div>
+    <div>{{ question.create_date }}</div>
     <div>
         {{ question.content }}
+    </div>
+    <div class="my-3">
+        {% if request.user == question.author %}
+            <a href="{% url 'pybo:question_modify' question.id %}"
+               class="btn btn-sm btn-outline-secondary">수정</a>
+            <a href="{% url 'pybo:question_delete' question.id %}">삭제</a>
+        {% endif %}
     </div>
     {% if anwser_list %}
         <h5>{{ anwser_list.count }}만큼 답변이 있습니다.</h5>
@@ -12,6 +32,10 @@
                     <li class="page-link">{{ anwser.content }}</li>
                     <div class="page-link">{{ anwser.author }}</div>
                     <div class="page-link">{{ anwser.create_date }}</div>
+                    {% if request.user == anwser.author %}
+                        <a href="{% url 'pybo:answer_modify' anwser.id %}" class="page-link">수정</a>
+                        <a href="{% url 'pybo:answer_delete' anwser.id %}" class="page-link">삭제</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </ul>
