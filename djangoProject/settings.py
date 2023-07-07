@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 LANGUAGE_CODE = 'ko-kr'
 TIME_ZONE = 'Asia/Seoul'
@@ -75,17 +76,11 @@ WSGI_APPLICATION = "djangoProject.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',  # 데이터베이스 이름
-        'USER': 'django',  # MySQL 사용자 이름
-        'PASSWORD': '0000',  # MySQL 사용자 비밀번호
-        'HOST': 'localhost',  # 데이터베이스 서버 주소 (로컬 서버인 경우)
-        'PORT': '3306',  # MySQL 포트 (3306이 기본값)
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # 데이터베이스 파일 경로
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
